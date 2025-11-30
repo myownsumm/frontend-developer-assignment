@@ -212,9 +212,13 @@ test.describe('Recipients Manager', () => {
       await expect(page.locator('text=jane@awesome.com')).not.toBeVisible();
 
       // Select a recipient from the filtered results
-      // Expand the group first
-      const expandButton = availablePanel.locator('button[aria-label="Expand group"]').first();
-      await expandButton.click();
+      // The group may already be auto-expanded due to search matching emails inside it
+      // Check if emails are already visible, if not, expand the group
+      const emailsVisible = await page.locator('text=ann@timescale.com').isVisible().catch(() => false);
+      if (!emailsVisible) {
+        const expandButton = availablePanel.locator('button[aria-label="Expand group"]').first();
+        await expandButton.click();
+      }
       await expect(page.locator('text=ann@timescale.com')).toBeVisible();
 
       // Select a recipient
