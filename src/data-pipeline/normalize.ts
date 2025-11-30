@@ -4,6 +4,7 @@ import { TransformedRecipient } from "./transform";
 /**
  * Normalize stage: Remove isSelected property and separate into available/selected IDs.
  * Restructures data model into canonical normalized form.
+ * Sorts ID arrays alphabetically by email address.
  */
 export const normalizeRecipients = (
   transformedRecipients: TransformedRecipient[]
@@ -31,10 +32,19 @@ export const normalizeRecipients = (
     }
   });
 
+  // Sort ID arrays alphabetically by email address
+  const sortIdsByEmail = (ids: string[]): string[] => {
+    return ids.sort((idA, idB) => {
+      const emailA = recipientsById[idA]?.email ?? "";
+      const emailB = recipientsById[idB]?.email ?? "";
+      return emailA.localeCompare(emailB);
+    });
+  };
+
   return {
     recipientsById,
-    availableRecipientIds,
-    selectedRecipientIds,
+    availableRecipientIds: sortIdsByEmail(availableRecipientIds),
+    selectedRecipientIds: sortIdsByEmail(selectedRecipientIds),
   };
 };
 
