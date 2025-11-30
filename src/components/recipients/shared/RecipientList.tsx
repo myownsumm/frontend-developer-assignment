@@ -13,7 +13,6 @@ export const RecipientList = memo(({
   onClickRecipient,
   searchString = "",
 }: RecipientListProps) => {
-  // Stable callback factories to avoid creating new functions inside useMemo
   const createToggleHandler = useCallback(
     (domain: string) => () => onToggleGroup(domain),
     [onToggleGroup]
@@ -29,7 +28,6 @@ export const RecipientList = memo(({
     [onClickRecipient]
   );
 
-  // Memoize group items to avoid recreating callbacks on each render
   const groupItems = useMemo(() => {
     return groups.map((group) => {
       const domain = group.domain;
@@ -44,7 +42,6 @@ export const RecipientList = memo(({
     });
   }, [groups, expandedGroups, createToggleHandler, createDomainClickHandler]);
 
-  // Memoize individual recipient items
   const recipientItems = useMemo(() => {
     return individualRecipients.map((recipient) => {
       return {

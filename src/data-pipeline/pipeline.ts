@@ -15,25 +15,16 @@ export type RecipientsData = {
   selectedRecipientIds: string[];
 };
 
-/**
- * Pipeline orchestrator: Executes the complete data pipeline.
- * Returns the normalized data structure and updates store atoms.
- */
 export const runRecipientsPipeline = (
   rawRecipients: RawRecipient[],
   store: ReturnType<typeof createStore>
 ): RecipientsData => {
-  // Stage 1: Transform - assign IDs
   const transformed = transformRecipients(rawRecipients);
-
-  // Stage 2: Normalize - restructure into canonical form
   const normalized = normalizeRecipients(transformed);
 
-  // Stage 3: Store - update atoms
   store.set(recipientsByIdAtom, normalized.recipientsById);
   store.set(availableRecipientIdsAtom, normalized.availableRecipientIds);
   store.set(selectedRecipientIdsAtom, normalized.selectedRecipientIds);
 
-  // Return normalized data for consumers (e.g., react-query)
   return normalized;
 };

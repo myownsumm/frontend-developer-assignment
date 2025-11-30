@@ -10,31 +10,15 @@ import {
 import { filterRecipientGroups } from "../lib/search";
 import { extractDomain } from "../lib/utils";
 
-/**
- * Memoize stage: Create memoized/derived values for performance optimization.
- *
- * This stage is for computed/derived values that need caching, such as:
- * - Grouped recipients by domain
- * - Filtered/sorted lists
- * - Aggregated statistics
- */
-
-/**
- * Derived atom: Groups available recipients by domain.
- * Recipients with the same domain are grouped together.
- * Filters results based on search string if provided.
- */
 export const availableRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
   const recipientsById = get(recipientsByIdAtom);
   const availableIds = get(availableRecipientIdsAtom);
   const searchString = get(availableSearchStringAtom);
 
-  // Get available recipients
   const availableRecipients = availableIds
     .map((id) => recipientsById[id])
     .filter((recipient): recipient is Recipient => recipient !== undefined);
 
-  // Group by domain
   const domainMap = new Map<string, Recipient[]>();
 
   availableRecipients.forEach((recipient) => {
@@ -45,7 +29,6 @@ export const availableRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
     domainMap.get(domain)!.push(recipient);
   });
 
-  // Convert to RecipientGroup array, sorted by domain
   const groups: RecipientGroup[] = Array.from(domainMap.entries())
     .map(([domain, recipients]) => ({
       domain,
@@ -53,13 +36,9 @@ export const availableRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
     }))
     .sort((a, b) => a.domain.localeCompare(b.domain));
 
-  // Filter groups based on search string
   return filterRecipientGroups(groups, searchString);
 });
 
-/**
- * Derived atom: Available recipients grouped by domain (groups with 2+ recipients)
- */
 export const availableRecipientGroupsOnlyAtom = atom<RecipientGroup[]>(
   (get) => {
     const groups = get(availableRecipientGroupsAtom);
@@ -67,9 +46,6 @@ export const availableRecipientGroupsOnlyAtom = atom<RecipientGroup[]>(
   }
 );
 
-/**
- * Derived atom: Individual available recipients (domains with only 1 recipient)
- */
 export const individualAvailableRecipientsAtom = atom<Recipient[]>((get) => {
   const groups = get(availableRecipientGroupsAtom);
   return groups
@@ -77,22 +53,15 @@ export const individualAvailableRecipientsAtom = atom<Recipient[]>((get) => {
     .flatMap((group) => group.recipients);
 });
 
-/**
- * Derived atom: Groups selected recipients by domain.
- * Recipients with the same domain are grouped together.
- * Filters results based on search string if provided.
- */
 export const selectedRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
   const recipientsById = get(recipientsByIdAtom);
   const selectedIds = get(selectedRecipientIdsAtom);
   const searchString = get(selectedSearchStringAtom);
 
-  // Get selected recipients
   const selectedRecipients = selectedIds
     .map((id) => recipientsById[id])
     .filter((recipient): recipient is Recipient => recipient !== undefined);
 
-  // Group by domain
   const domainMap = new Map<string, Recipient[]>();
 
   selectedRecipients.forEach((recipient) => {
@@ -103,7 +72,6 @@ export const selectedRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
     domainMap.get(domain)!.push(recipient);
   });
 
-  // Convert to RecipientGroup array, sorted by domain
   const groups: RecipientGroup[] = Array.from(domainMap.entries())
     .map(([domain, recipients]) => ({
       domain,
@@ -111,14 +79,10 @@ export const selectedRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
     }))
     .sort((a, b) => a.domain.localeCompare(b.domain));
 
-  // Filter groups based on search string
   return filterRecipientGroups(groups, searchString);
 });
 
 
-/**
- * Derived atom: Selected recipients grouped by domain (groups with 2+ recipients)
- */
 export const selectedRecipientGroupsOnlyAtom = atom<RecipientGroup[]>(
   (get) => {
     const groups = get(selectedRecipientGroupsAtom);
@@ -126,9 +90,6 @@ export const selectedRecipientGroupsOnlyAtom = atom<RecipientGroup[]>(
   }
 );
 
-/**
- * Derived atom: Individual selected recipients (domains with only 1 recipient)
- */
 export const individualSelectedRecipientsAtom = atom<Recipient[]>((get) => {
   const groups = get(selectedRecipientGroupsAtom);
   return groups

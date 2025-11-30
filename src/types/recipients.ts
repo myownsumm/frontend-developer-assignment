@@ -14,7 +14,6 @@ export interface SearchBarProps {
   onChange: (value: string) => void;
 }
 
-// Shared component types for reusable recipient components
 export interface RecipientItemProps {
   email: string;
   recipientId: string;

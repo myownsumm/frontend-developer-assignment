@@ -7,33 +7,26 @@ export const SearchBar = ({ placeholder = "search", value, onChange }: SearchBar
   const [isPending, setIsPending] = useState(false);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Sync local value with external value when it changes externally
   useEffect(() => {
     setLocalValue(value);
     setIsPending(false);
   }, [value]);
 
-  // Debounce the onChange callback
   useEffect(() => {
-    // Check if local value differs from external value (pending state)
     const hasPendingChanges = localValue !== value;
     setIsPending(hasPendingChanges);
 
-    // Clear existing timeout
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
 
-    // Only set timeout if there are pending changes
     if (hasPendingChanges) {
-      // Set new timeout to call onChange after 500ms
       timeoutRef.current = setTimeout(() => {
         onChange(localValue);
         setIsPending(false);
       }, 500);
     }
 
-    // Cleanup timeout on unmount or when localValue changes
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);

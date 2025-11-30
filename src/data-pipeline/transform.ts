@@ -11,10 +11,6 @@ export interface TransformedRecipient {
   isSelected: boolean;
 }
 
-/**
- * Transform stage: Assign UUIDs to recipients.
- * Pure transformation - only adds IDs, no business logic.
- */
 export const transformRecipients = (
   rawRecipients: RawRecipient[]
 ): TransformedRecipient[] => {

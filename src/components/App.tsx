@@ -9,11 +9,6 @@ import recipientsData from "../assets/recipientsData.json";
 import { runRecipientsPipeline, type RecipientsData } from "../data-pipeline";
 import { recipientsByIdAtom } from "../store/atoms";
 
-/**
- * Query function: Loads and processes recipients data from JSON through the pipeline.
- * Returns the normalized data structure for react-query caching.
- * The pipeline function also stores the data in Jotai atoms as a side effect.
- */
 const loadRecipientsData = async (
   store: ReturnType<typeof createStore>
 ): Promise<RecipientsData> => {

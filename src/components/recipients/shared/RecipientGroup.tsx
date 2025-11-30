@@ -18,7 +18,6 @@ export const RecipientGroup = memo(({
     [domain, searchString]
   );
 
-  // Memoize recipient items to avoid recreating callbacks on each render
   const recipientItems = useMemo(() => {
     return recipients.map((recipient) => {
       return {
