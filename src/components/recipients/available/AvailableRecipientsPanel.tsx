@@ -48,7 +48,6 @@ export const AvailableRecipientsPanel = () => {
           onToggleGroup={toggleGroup}
           onClickDomain={selectDomainRecipients}
           onClickRecipient={selectRecipient}
-          actionType="add"
           searchString={searchString}
         />
       </VStack>

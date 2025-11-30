@@ -48,7 +48,6 @@ export const SelectedRecipientsPanel = () => {
           onToggleGroup={toggleGroup}
           onClickDomain={removeDomainRecipients}
           onClickRecipient={removeRecipient}
-          actionType="remove"
           searchString={searchString}
         />
       </VStack>

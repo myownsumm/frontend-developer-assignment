@@ -6,7 +6,6 @@ import { highlightMatch } from "../../../lib/search";
 export const RecipientItem = memo(({
   email,
   onClick,
-  action,
   searchString = "",
 }: RecipientItemProps) => {
   const highlightedEmail = useMemo(
@@ -26,7 +25,6 @@ export const RecipientItem = memo(({
       p={1}
     >
       <Text>{highlightedEmail}</Text>
-      {action}
     </Box>
   );
 });

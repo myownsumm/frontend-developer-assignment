@@ -11,8 +11,6 @@ export const RecipientGroup = memo(({
   onToggle,
   onClickDomain,
   onClickRecipient,
-  actionType,
-  showDomainRemoveButton = false,
   searchString = "",
 }: RecipientGroupProps) => {
   const highlightedDomain = useMemo(
@@ -23,23 +21,6 @@ export const RecipientGroup = memo(({
   // Memoize recipient items to avoid recreating callbacks on each render
   const recipientItems = useMemo(() => {
     return recipients.map((recipient) => {
-      const action =
-        onClickRecipient && actionType ? (
-          <IconButton
-            aria-label={
-              actionType === "add" ? "Add recipient" : "Remove recipient"
-            }
-            variant="ghost"
-            size="xs"
-            onClick={(e) => {
-              e.stopPropagation();
-              onClickRecipient(recipient.id);
-            }}
-          >
-            {actionType === "add" ? "+" : "-"}
-          </IconButton>
-        ) : undefined;
-
       return {
         key: recipient.id,
         email: recipient.email,
@@ -47,10 +28,9 @@ export const RecipientGroup = memo(({
         onClick: onClickRecipient
           ? () => onClickRecipient(recipient.id)
           : undefined,
-        action,
       };
     });
-  }, [recipients, onClickRecipient, actionType]);
+  }, [recipients, onClickRecipient]);
 
   return (
     <Box>
@@ -83,19 +63,6 @@ export const RecipientGroup = memo(({
           </IconButton>
           <Text fontWeight="medium" data-testid={`domain-text-${domain}`}>{highlightedDomain}</Text>
         </Box>
-        {showDomainRemoveButton && onClickDomain && (
-          <IconButton
-            aria-label="Remove all recipients in this group"
-            variant="ghost"
-            size="sm"
-            onClick={(e) => {
-              e.stopPropagation();
-              onClickDomain();
-            }}
-          >
-            -
-          </IconButton>
-        )}
       </Box>
       {isExpanded && (
         <Box pl={6}>
@@ -105,7 +72,6 @@ export const RecipientGroup = memo(({
               email={item.email}
               recipientId={item.recipientId}
               onClick={item.onClick}
-              action={item.action}
               searchString={searchString}
             />
           ))}

@@ -91,9 +91,8 @@ test.describe('Recipients Manager', () => {
       
       // Find and click an individual recipient (jane@awesome.com)
       const recipient = availablePanel.locator('text=jane@awesome.com').locator('..');
-      const addButton = recipient.locator('button[aria-label="Add recipient"]');
       
-      await addButton.click();
+      await recipient.click();
 
       // Wait for the recipient to appear in selected panel
       await expect(selectedPanel.locator('text=jane@awesome.com')).toBeVisible();
@@ -223,8 +222,7 @@ test.describe('Recipients Manager', () => {
 
       // Select a recipient
       const recipient = availablePanel.locator('text=ann@timescale.com').locator('..');
-      const addButton = recipient.locator('button[aria-label="Add recipient"]');
-      await addButton.click();
+      await recipient.click();
 
       // Should appear in selected panel
       await expect(selectedPanel.locator('text=ann@timescale.com')).toBeVisible();
@@ -258,7 +256,7 @@ test.describe('Recipients Manager', () => {
 
       // Select the recipient
       const recipient = availablePanel.locator('text=jane@awesome.com').locator('..');
-      await recipient.locator('button[aria-label="Add recipient"]').click();
+      await recipient.click();
 
       // Should appear in selected panel
       await expect(selectedPanel.locator('text=jane@awesome.com')).toBeVisible();
@@ -371,9 +369,8 @@ test.describe('Recipients Manager', () => {
       // Find mike@hello.com in selected panel (pre-selected)
       const recipient = selectedPanel.locator('text=mike@hello.com').locator('..');
       
-      // Click remove button
-      const removeButton = recipient.locator('button[aria-label="Remove recipient"]');
-      await removeButton.click();
+      // Click on the recipient row to remove it
+      await recipient.click();
 
       // Should be removed from selected
       await expect(selectedPanel.locator('text=mike@hello.com')).not.toBeVisible();
@@ -386,29 +383,18 @@ test.describe('Recipients Manager', () => {
       const availablePanel = page.locator('text=Available recipients').locator('..');
       const selectedPanel = page.locator('text=Selected recipients').locator('..');
       
-      // Find qwerty.com group by its remove button
-      const domainRemoveButton = selectedPanel.locator('button[aria-label="Remove all recipients in this group"]').first();
-      const qwertyGroup = domainRemoveButton.locator('..');
+      // Find qwerty.com group by clicking on the domain text
+      const domainText = selectedPanel.locator('[data-testid="domain-text-qwerty.com"]');
+      await expect(domainText).toBeVisible();
       
-      // Click the domain remove button
-      await domainRemoveButton.click();
+      // Click on the domain row to remove all recipients in the group
+      await domainText.click();
 
       // Both recipients should be removed from selected
       await expect(selectedPanel.locator('text=brian@qwerty.com')).not.toBeVisible();
       await expect(selectedPanel.locator('text=kate@qwerty.com')).not.toBeVisible();
-      // The group should also be gone - check that no remove button's parent contains qwerty.com
-      const removeButtonsAfter = selectedPanel.locator('button[aria-label="Remove all recipients in this group"]');
-      let qwertyStillPresent = false;
-      for (let i = 0; i < await removeButtonsAfter.count(); i++) {
-        const button = removeButtonsAfter.nth(i);
-        const groupRow = button.locator('..');
-        const qwertyText = groupRow.getByText('qwerty.com', { exact: true });
-        if (await qwertyText.count() > 0) {
-          qwertyStillPresent = true;
-          break;
-        }
-      }
-      expect(qwertyStillPresent).toBe(false);
+      // The group should also be gone - check that the domain text is no longer visible
+      await expect(domainText).not.toBeVisible();
 
       // Should appear back in available panel (find by expand button)
       const expandButtons = availablePanel.locator('button[aria-label="Expand group"]');
@@ -432,7 +418,7 @@ test.describe('Recipients Manager', () => {
       
       // First, add a recipient
       const recipient = availablePanel.locator('text=jane@awesome.com').locator('..');
-      await recipient.locator('button[aria-label="Add recipient"]').click();
+      await recipient.click();
 
       // Now remove it by clicking on the recipient itself in selected panel
       const selectedRecipient = selectedPanel.locator('text=jane@awesome.com').locator('..');

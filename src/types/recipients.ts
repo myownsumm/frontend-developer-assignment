@@ -19,7 +19,6 @@ export interface RecipientItemProps {
   email: string;
   recipientId: string;
   onClick?: () => void;
-  action?: React.ReactNode;
   searchString?: string;
 }
 
@@ -30,8 +29,6 @@ export interface RecipientGroupProps {
   onToggle?: () => void;
   onClickDomain?: () => void;
   onClickRecipient?: (recipientId: string) => void;
-  actionType?: 'add' | 'remove';
-  showDomainRemoveButton?: boolean;
   searchString?: string;
 }
 
@@ -42,7 +39,6 @@ export interface RecipientListProps {
   onToggleGroup: (domain: string) => void;
   onClickDomain?: (domain: string) => void;
   onClickRecipient?: (recipientId: string) => void;
-  actionType?: 'add' | 'remove';
   searchString?: string;
 }
 
