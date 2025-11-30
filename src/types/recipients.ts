@@ -8,57 +8,36 @@ export interface RecipientGroup {
   recipients: Recipient[];
 }
 
-export interface AvailableRecipientItemProps {
-  email: string;
-  recipientId: string;
-  onClick?: () => void;
-}
-
-export interface AvailableRecipientGroupProps {
-  domain: string;
-  recipients: Recipient[];
-  isExpanded?: boolean;
-  onToggle?: () => void;
-  onSelectDomain?: () => void;
-  onSelectRecipient?: (recipientId: string) => void;
-}
-
-export interface AvailableRecipientListProps {
-  groups: RecipientGroup[];
-  individualRecipients: Recipient[];
-}
-
 export interface SearchBarProps {
   placeholder?: string;
 }
 
-export interface AvailableRecipientsPanelProps {
-  groups: RecipientGroup[];
-  individualRecipients: Recipient[];
-}
-
-export interface SelectedRecipientItemProps {
+// Shared component types for reusable recipient components
+export interface RecipientItemProps {
   email: string;
   recipientId: string;
   onClick?: () => void;
+  action?: React.ReactNode;
 }
 
-export interface SelectedRecipientGroupProps {
-  groupName: string;
+export interface RecipientGroupProps {
+  domain: string;
   recipients: Recipient[];
   isExpanded?: boolean;
   onToggle?: () => void;
-  onRemoveDomain?: () => void;
-  onRemoveRecipient?: (recipientId: string) => void;
+  onClickDomain?: () => void;
+  onClickRecipient?: (recipientId: string) => void;
+  actionType?: 'add' | 'remove';
+  showDomainRemoveButton?: boolean;
 }
 
-export interface SelectedRecipientListProps {
-  companyRecipients: Recipient[];
-  emailRecipients: Recipient[];
-}
-
-export interface SelectedRecipientsPanelProps {
-  companyRecipients: Recipient[];
-  emailRecipients: Recipient[];
+export interface RecipientListProps {
+  groups: RecipientGroup[];
+  individualRecipients: Recipient[];
+  expandedGroups: Set<string>;
+  onToggleGroup: (domain: string) => void;
+  onClickDomain?: (domain: string) => void;
+  onClickRecipient?: (recipientId: string) => void;
+  actionType?: 'add' | 'remove';
 }
 

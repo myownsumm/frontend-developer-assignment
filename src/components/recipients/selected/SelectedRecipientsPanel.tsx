@@ -1,20 +1,49 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
-import { SelectedRecipientsPanelProps } from "../../../types/recipients";
-import { SelectedRecipientList } from "./SelectedRecipientList";
+import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { RecipientList } from "../shared/RecipientList";
+import {
+  selectedRecipientGroupsOnlyAtom,
+  individualSelectedRecipientsAtom,
+} from "../../../data-pipeline/memoize";
+import { selectedExpandedGroupsAtom } from "../../../lib/atoms";
+import {
+  removeRecipientActionAtom,
+  removeDomainRecipientsActionAtom,
+} from "../../../lib/actions";
 
-export const SelectedRecipientsPanel = ({
-  companyRecipients,
-  emailRecipients,
-}: SelectedRecipientsPanelProps) => {
+export const SelectedRecipientsPanel = () => {
+  const groups = useAtomValue(selectedRecipientGroupsOnlyAtom);
+  const individualRecipients = useAtomValue(individualSelectedRecipientsAtom);
+  const [expandedGroups, setExpandedGroups] = useAtom(selectedExpandedGroupsAtom);
+  const removeRecipient = useSetAtom(removeRecipientActionAtom);
+  const removeDomainRecipients = useSetAtom(removeDomainRecipientsActionAtom);
+
+  const toggleGroup = (domain: string) => {
+    setExpandedGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(domain)) {
+        next.delete(domain);
+      } else {
+        next.add(domain);
+      }
+      return next;
+    });
+  };
+
   return (
     <Box>
       <VStack align="stretch" gap={4}>
         <Text fontSize="lg" fontWeight="semibold">
           Selected recipients
         </Text>
-        <SelectedRecipientList
-          companyRecipients={companyRecipients}
-          emailRecipients={emailRecipients}
+        <RecipientList
+          groups={groups}
+          individualRecipients={individualRecipients}
+          expandedGroups={expandedGroups}
+          onToggleGroup={toggleGroup}
+          onClickDomain={removeDomainRecipients}
+          onClickRecipient={removeRecipient}
+          actionType="remove"
         />
       </VStack>
     </Box>

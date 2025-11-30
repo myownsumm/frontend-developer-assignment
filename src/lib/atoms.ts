@@ -22,7 +22,7 @@ export const selectedRecipientIdsAtom = atom<string[]>([]);
 export const availableExpandedGroupsAtom = atom<Set<string>>(new Set<string>());
 
 /**
- * Atom storing expanded group names in selected recipients panel
+ * Atom storing expanded group domains in selected recipients panel
  */
 export const selectedExpandedGroupsAtom = atom<Set<string>>(new Set<string>());
 

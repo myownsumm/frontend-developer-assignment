@@ -112,20 +112,21 @@ export const selectedRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
   return groups;
 });
 
-/**
- * Derived atom: Selected recipients in domains with 2+ recipients (company recipients)
- */
-export const selectedCompanyRecipientsAtom = atom<Recipient[]>((get) => {
-  const groups = get(selectedRecipientGroupsAtom);
-  return groups
-    .filter((group) => group.recipients.length > 1)
-    .flatMap((group) => group.recipients);
-});
 
 /**
- * Derived atom: Selected recipients in domains with only 1 recipient (email recipients)
+ * Derived atom: Selected recipients grouped by domain (groups with 2+ recipients)
  */
-export const selectedEmailRecipientsAtom = atom<Recipient[]>((get) => {
+export const selectedRecipientGroupsOnlyAtom = atom<RecipientGroup[]>(
+  (get) => {
+    const groups = get(selectedRecipientGroupsAtom);
+    return groups.filter((group) => group.recipients.length > 1);
+  }
+);
+
+/**
+ * Derived atom: Individual selected recipients (domains with only 1 recipient)
+ */
+export const individualSelectedRecipientsAtom = atom<Recipient[]>((get) => {
   const groups = get(selectedRecipientGroupsAtom);
   return groups
     .filter((group) => group.recipients.length === 1)
