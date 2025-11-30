@@ -20,6 +20,7 @@ export interface RecipientItemProps {
   recipientId: string;
   onClick?: () => void;
   action?: React.ReactNode;
+  searchString?: string;
 }
 
 export interface RecipientGroupProps {
@@ -31,6 +32,7 @@ export interface RecipientGroupProps {
   onClickRecipient?: (recipientId: string) => void;
   actionType?: 'add' | 'remove';
   showDomainRemoveButton?: boolean;
+  searchString?: string;
 }
 
 export interface RecipientListProps {
@@ -41,5 +43,6 @@ export interface RecipientListProps {
   onClickDomain?: (domain: string) => void;
   onClickRecipient?: (recipientId: string) => void;
   actionType?: 'add' | 'remove';
+  searchString?: string;
 }
 

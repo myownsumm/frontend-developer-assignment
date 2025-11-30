@@ -47,6 +47,7 @@ export const AvailableRecipientsPanel = () => {
           onClickDomain={selectDomainRecipients}
           onClickRecipient={selectRecipient}
           actionType="add"
+          searchString={searchString}
         />
       </VStack>
     </Box>

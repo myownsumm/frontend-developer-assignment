@@ -1,4 +1,6 @@
 import { Recipient, RecipientGroup } from "../types/recipients";
+import React from "react";
+import { Box } from "@chakra-ui/react";
 
 /**
  * Extract domain from email address
@@ -13,7 +15,10 @@ const extractDomain = (email: string): string => {
  * - Email address (partial match)
  * - Domain name (partial match)
  */
-export const matchesSearch = (recipient: Recipient, searchString: string): boolean => {
+export const matchesSearch = (
+  recipient: Recipient,
+  searchString: string
+): boolean => {
   if (!searchString.trim()) {
     return true;
   }
@@ -65,3 +70,55 @@ export const filterRecipientGroups = (
     .filter((group): group is RecipientGroup => group !== null);
 };
 
+/**
+ * Highlight matching text in a string by wrapping matched portions in React elements.
+ * Returns an array of React nodes with highlighted portions styled.
+ */
+export const highlightMatch = (
+  text: string,
+  searchString: string
+): React.ReactNode[] => {
+  if (!searchString.trim()) {
+    return [text];
+  }
+
+  const lowerText = text.toLowerCase();
+  const lowerSearch = searchString.toLowerCase();
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let index = lowerText.indexOf(lowerSearch, lastIndex);
+
+  while (index !== -1) {
+    // Add text before the match
+    if (index > lastIndex) {
+      parts.push(text.substring(lastIndex, index));
+    }
+
+    // Add the highlighted match
+    parts.push(
+      React.createElement(
+        Box,
+        {
+          as: "span",
+          key: `highlight-${index}`,
+          bg: "yellow.200",
+          fontWeight: "semibold",
+          px: 0,
+          borderRadius: "sm",
+          display: "inline",
+        },
+        text.substring(index, index + searchString.length)
+      )
+    );
+
+    lastIndex = index + searchString.length;
+    index = lowerText.indexOf(lowerSearch, lastIndex);
+  }
+
+  // Add remaining text after the last match
+  if (lastIndex < text.length) {
+    parts.push(text.substring(lastIndex));
+  }
+
+  return parts.length > 0 ? parts : [text];
+};

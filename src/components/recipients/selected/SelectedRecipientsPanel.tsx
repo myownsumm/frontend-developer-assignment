@@ -47,6 +47,7 @@ export const SelectedRecipientsPanel = () => {
           onClickDomain={removeDomainRecipients}
           onClickRecipient={removeRecipient}
           actionType="remove"
+          searchString={searchString}
         />
       </VStack>
     </Box>

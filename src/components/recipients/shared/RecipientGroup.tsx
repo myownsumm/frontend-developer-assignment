@@ -1,6 +1,8 @@
 import { Box, Text, IconButton } from "@chakra-ui/react";
+import { useMemo } from "react";
 import { RecipientGroupProps } from "../../../types/recipients";
 import { RecipientItem } from "./RecipientItem";
+import { highlightMatch } from "../../../lib/search";
 
 export const RecipientGroup = ({
   domain,
@@ -11,7 +13,12 @@ export const RecipientGroup = ({
   onClickRecipient,
   actionType,
   showDomainRemoveButton = false,
+  searchString = "",
 }: RecipientGroupProps) => {
+  const highlightedDomain = useMemo(
+    () => highlightMatch(domain, searchString),
+    [domain, searchString]
+  );
   return (
     <Box>
       <Box
@@ -40,7 +47,7 @@ export const RecipientGroup = ({
           >
             {isExpanded ? "▼" : "▶"}
           </IconButton>
-          <Text fontWeight="medium">{domain}</Text>
+          <Text fontWeight="medium">{highlightedDomain}</Text>
         </Box>
         {showDomainRemoveButton && onClickDomain && (
           <IconButton
@@ -87,6 +94,7 @@ export const RecipientGroup = ({
                     : undefined
                 }
                 action={action}
+                searchString={searchString}
               />
             );
           })}

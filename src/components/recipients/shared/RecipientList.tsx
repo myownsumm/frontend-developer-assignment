@@ -11,6 +11,7 @@ export const RecipientList = ({
   onClickDomain,
   onClickRecipient,
   actionType,
+  searchString = "",
 }: RecipientListProps) => {
   return (
     <Box border="1px" borderColor="gray.200" borderRadius="md" p={4}>
@@ -26,6 +27,7 @@ export const RecipientList = ({
             onClickRecipient={onClickRecipient}
             actionType={actionType}
             showDomainRemoveButton={actionType === 'remove'}
+            searchString={searchString}
           />
         ))}
         {individualRecipients.map((recipient) => {
@@ -50,6 +52,7 @@ export const RecipientList = ({
               recipientId={recipient.id}
               onClick={onClickRecipient ? () => onClickRecipient(recipient.id) : undefined}
               action={action}
+              searchString={searchString}
             />
           );
         })}
