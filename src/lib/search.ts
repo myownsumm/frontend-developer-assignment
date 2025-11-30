@@ -1,13 +1,7 @@
 import { Recipient, RecipientGroup } from "../types/recipients";
 import React from "react";
 import { Box } from "@chakra-ui/react";
-
-/**
- * Extract domain from email address
- */
-const extractDomain = (email: string): string => {
-  return email.split("@")[1] || "";
-};
+import { extractDomain } from "./utils";
 
 /**
  * Check if a recipient matches the search string.

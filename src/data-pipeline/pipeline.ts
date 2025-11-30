@@ -6,7 +6,7 @@ import {
   recipientsByIdAtom,
   availableRecipientIdsAtom,
   selectedRecipientIdsAtom,
-} from "../lib/atoms";
+} from "../store/atoms";
 
 /**
  * Pipeline orchestrator: Executes the complete data pipeline.

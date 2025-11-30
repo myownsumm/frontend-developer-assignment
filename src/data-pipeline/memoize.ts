@@ -6,8 +6,9 @@ import {
   selectedRecipientIdsAtom,
   availableSearchStringAtom,
   selectedSearchStringAtom,
-} from "../lib/atoms";
+} from "../store/atoms";
 import { filterRecipientGroups } from "../lib/search";
+import { extractDomain } from "../lib/utils";
 
 /**
  * Memoize stage: Create memoized/derived values for performance optimization.
@@ -17,13 +18,6 @@ import { filterRecipientGroups } from "../lib/search";
  * - Filtered/sorted lists
  * - Aggregated statistics
  */
-
-/**
- * Extract domain from email address
- */
-const extractDomain = (email: string): string => {
-  return email.split("@")[1] || "";
-};
 
 /**
  * Derived atom: Groups available recipients by domain.

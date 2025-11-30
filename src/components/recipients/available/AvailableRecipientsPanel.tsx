@@ -6,11 +6,11 @@ import {
   availableRecipientGroupsOnlyAtom,
   individualAvailableRecipientsAtom,
 } from "../../../data-pipeline/memoize";
-import { availableExpandedGroupsAtom, availableSearchStringAtom } from "../../../lib/atoms";
+import { availableExpandedGroupsAtom, availableSearchStringAtom } from "../../../store/atoms";
 import {
   selectRecipientActionAtom,
   selectDomainRecipientsActionAtom,
-} from "../../../lib/actions";
+} from "../../../store/actions";
 
 export const AvailableRecipientsPanel = () => {
   const groups = useAtomValue(availableRecipientGroupsOnlyAtom);

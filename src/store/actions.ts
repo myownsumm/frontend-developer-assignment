@@ -4,13 +4,7 @@ import {
   availableRecipientIdsAtom,
   selectedRecipientIdsAtom,
 } from "./atoms";
-
-/**
- * Extract domain from email address
- */
-const extractDomain = (email: string): string => {
-  return email.split("@")[1] || "";
-};
+import { extractDomain } from "../lib/utils";
 
 /**
  * Write atom: Select a single recipient by ID
@@ -95,4 +89,5 @@ export const removeDomainRecipientsActionAtom = atom(
     set(availableRecipientIdsAtom, [...availableIds, ...domainRecipientIds]);
   }
 );
+
 
