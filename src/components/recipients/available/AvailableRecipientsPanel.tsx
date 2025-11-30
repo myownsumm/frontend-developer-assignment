@@ -33,7 +33,14 @@ export const AvailableRecipientsPanel = () => {
   };
 
   return (
-    <Box>
+    <Box
+      bg="white"
+      borderRadius="lg"
+      boxShadow="sm"
+      border="1px"
+      borderColor="gray.200"
+      p={6}
+    >
       <VStack align="stretch" gap={4}>
         <Text fontSize="lg" fontWeight="semibold">
           Available recipients
