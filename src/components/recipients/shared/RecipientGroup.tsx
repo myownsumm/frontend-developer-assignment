@@ -35,6 +35,7 @@ export const RecipientGroup = ({
           cursor={onClickDomain ? "pointer" : "default"}
           flex={1}
           onClick={onClickDomain}
+          data-testid={`domain-clickable-${domain}`}
         >
           <IconButton
             aria-label={isExpanded ? "Collapse group" : "Expand group"}
@@ -47,7 +48,7 @@ export const RecipientGroup = ({
           >
             {isExpanded ? "▼" : "▶"}
           </IconButton>
-          <Text fontWeight="medium">{highlightedDomain}</Text>
+          <Text fontWeight="medium" data-testid={`domain-text-${domain}`}>{highlightedDomain}</Text>
         </Box>
         {showDomainRemoveButton && onClickDomain && (
           <IconButton
