@@ -1,9 +1,9 @@
 import { Text, Box } from "@chakra-ui/react";
-import { useMemo } from "react";
+import { useMemo, memo } from "react";
 import { RecipientItemProps } from "../../../types/recipients";
 import { highlightMatch } from "../../../lib/search";
 
-export const RecipientItem = ({
+export const RecipientItem = memo(({
   email,
   onClick,
   action,
@@ -29,5 +29,5 @@ export const RecipientItem = ({
       {action}
     </Box>
   );
-};
+});
 

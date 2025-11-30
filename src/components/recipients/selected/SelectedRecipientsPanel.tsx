@@ -1,5 +1,6 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { useCallback } from "react";
 import { SearchBar } from "../available/SearchBar";
 import { RecipientList } from "../shared/RecipientList";
 import {
@@ -20,7 +21,7 @@ export const SelectedRecipientsPanel = () => {
   const removeRecipient = useSetAtom(removeRecipientActionAtom);
   const removeDomainRecipients = useSetAtom(removeDomainRecipientsActionAtom);
 
-  const toggleGroup = (domain: string) => {
+  const toggleGroup = useCallback((domain: string) => {
     setExpandedGroups((prev) => {
       const next = new Set(prev);
       if (next.has(domain)) {
@@ -30,7 +31,7 @@ export const SelectedRecipientsPanel = () => {
       }
       return next;
     });
-  };
+  }, [setExpandedGroups]);
 
   return (
     <Box

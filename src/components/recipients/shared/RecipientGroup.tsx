@@ -1,10 +1,10 @@
 import { Box, Text, IconButton } from "@chakra-ui/react";
-import { useMemo } from "react";
+import { useMemo, memo } from "react";
 import { RecipientGroupProps } from "../../../types/recipients";
 import { RecipientItem } from "./RecipientItem";
 import { highlightMatch } from "../../../lib/search";
 
-export const RecipientGroup = ({
+export const RecipientGroup = memo(({
   domain,
   recipients,
   isExpanded = false,
@@ -19,6 +19,39 @@ export const RecipientGroup = ({
     () => highlightMatch(domain, searchString),
     [domain, searchString]
   );
+
+  // Memoize recipient items to avoid recreating callbacks on each render
+  const recipientItems = useMemo(() => {
+    return recipients.map((recipient) => {
+      const action =
+        onClickRecipient && actionType ? (
+          <IconButton
+            aria-label={
+              actionType === "add" ? "Add recipient" : "Remove recipient"
+            }
+            variant="ghost"
+            size="xs"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClickRecipient(recipient.id);
+            }}
+          >
+            {actionType === "add" ? "+" : "-"}
+          </IconButton>
+        ) : undefined;
+
+      return {
+        key: recipient.id,
+        email: recipient.email,
+        recipientId: recipient.id,
+        onClick: onClickRecipient
+          ? () => onClickRecipient(recipient.id)
+          : undefined,
+        action,
+      };
+    });
+  }, [recipients, onClickRecipient, actionType]);
+
   return (
     <Box>
       <Box
@@ -66,41 +99,18 @@ export const RecipientGroup = ({
       </Box>
       {isExpanded && (
         <Box pl={6}>
-          {recipients.map((recipient) => {
-            const action =
-              onClickRecipient && actionType ? (
-                <IconButton
-                  aria-label={
-                    actionType === "add" ? "Add recipient" : "Remove recipient"
-                  }
-                  variant="ghost"
-                  size="xs"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onClickRecipient(recipient.id);
-                  }}
-                >
-                  {actionType === "add" ? "+" : "-"}
-                </IconButton>
-              ) : undefined;
-
-            return (
-              <RecipientItem
-                key={recipient.id}
-                email={recipient.email}
-                recipientId={recipient.id}
-                onClick={
-                  onClickRecipient
-                    ? () => onClickRecipient(recipient.id)
-                    : undefined
-                }
-                action={action}
-                searchString={searchString}
-              />
-            );
-          })}
+          {recipientItems.map((item) => (
+            <RecipientItem
+              key={item.key}
+              email={item.email}
+              recipientId={item.recipientId}
+              onClick={item.onClick}
+              action={item.action}
+              searchString={searchString}
+            />
+          ))}
         </Box>
       )}
     </Box>
   );
-};
+});
