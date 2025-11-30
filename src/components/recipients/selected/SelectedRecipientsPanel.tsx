@@ -12,6 +12,7 @@ import {
   removeRecipientActionAtom,
   removeDomainRecipientsActionAtom,
 } from "../../../store/actions";
+import { toggleSetItem } from "../../../lib/utils";
 
 export const SelectedRecipientsPanel = () => {
   const groups = useAtomValue(selectedRecipientGroupsOnlyAtom);
@@ -21,17 +22,10 @@ export const SelectedRecipientsPanel = () => {
   const removeRecipient = useSetAtom(removeRecipientActionAtom);
   const removeDomainRecipients = useSetAtom(removeDomainRecipientsActionAtom);
 
-  const toggleGroup = useCallback((domain: string) => {
-    setExpandedGroups((prev) => {
-      const next = new Set(prev);
-      if (next.has(domain)) {
-        next.delete(domain);
-      } else {
-        next.add(domain);
-      }
-      return next;
-    });
-  }, [setExpandedGroups]);
+  const toggleGroup = useCallback(
+    (domain: string) => setExpandedGroups(toggleSetItem(domain)),
+    [setExpandedGroups]
+  );
 
   return (
     <Box
