@@ -4,7 +4,10 @@ import {
   recipientsByIdAtom,
   availableRecipientIdsAtom,
   selectedRecipientIdsAtom,
+  availableSearchStringAtom,
+  selectedSearchStringAtom,
 } from "../lib/atoms";
+import { filterRecipientGroups } from "../lib/search";
 
 /**
  * Memoize stage: Create memoized/derived values for performance optimization.
@@ -25,10 +28,12 @@ const extractDomain = (email: string): string => {
 /**
  * Derived atom: Groups available recipients by domain.
  * Recipients with the same domain are grouped together.
+ * Filters results based on search string if provided.
  */
 export const availableRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
   const recipientsById = get(recipientsByIdAtom);
   const availableIds = get(availableRecipientIdsAtom);
+  const searchString = get(availableSearchStringAtom);
 
   // Get available recipients
   const availableRecipients = availableIds
@@ -54,7 +59,8 @@ export const availableRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
     }))
     .sort((a, b) => a.domain.localeCompare(b.domain));
 
-  return groups;
+  // Filter groups based on search string
+  return filterRecipientGroups(groups, searchString);
 });
 
 /**
@@ -80,10 +86,12 @@ export const individualAvailableRecipientsAtom = atom<Recipient[]>((get) => {
 /**
  * Derived atom: Groups selected recipients by domain.
  * Recipients with the same domain are grouped together.
+ * Filters results based on search string if provided.
  */
 export const selectedRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
   const recipientsById = get(recipientsByIdAtom);
   const selectedIds = get(selectedRecipientIdsAtom);
+  const searchString = get(selectedSearchStringAtom);
 
   // Get selected recipients
   const selectedRecipients = selectedIds
@@ -109,7 +117,8 @@ export const selectedRecipientGroupsAtom = atom<RecipientGroup[]>((get) => {
     }))
     .sort((a, b) => a.domain.localeCompare(b.domain));
 
-  return groups;
+  // Filter groups based on search string
+  return filterRecipientGroups(groups, searchString);
 });
 
 

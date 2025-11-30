@@ -6,7 +6,7 @@ import {
   availableRecipientGroupsOnlyAtom,
   individualAvailableRecipientsAtom,
 } from "../../../data-pipeline/memoize";
-import { availableExpandedGroupsAtom } from "../../../lib/atoms";
+import { availableExpandedGroupsAtom, availableSearchStringAtom } from "../../../lib/atoms";
 import {
   selectRecipientActionAtom,
   selectDomainRecipientsActionAtom,
@@ -16,6 +16,7 @@ export const AvailableRecipientsPanel = () => {
   const groups = useAtomValue(availableRecipientGroupsOnlyAtom);
   const individualRecipients = useAtomValue(individualAvailableRecipientsAtom);
   const [expandedGroups, setExpandedGroups] = useAtom(availableExpandedGroupsAtom);
+  const [searchString, setSearchString] = useAtom(availableSearchStringAtom);
   const selectRecipient = useSetAtom(selectRecipientActionAtom);
   const selectDomainRecipients = useSetAtom(selectDomainRecipientsActionAtom);
 
@@ -37,7 +38,7 @@ export const AvailableRecipientsPanel = () => {
         <Text fontSize="lg" fontWeight="semibold">
           Available recipients
         </Text>
-        <SearchBar />
+        <SearchBar value={searchString} onChange={setSearchString} />
         <RecipientList
           groups={groups}
           individualRecipients={individualRecipients}

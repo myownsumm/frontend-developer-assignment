@@ -24,3 +24,15 @@ Remove the unnecessary wrapper levels and use the same domain-based grouping str
 
 The refactoring makes the available recipient components reusable for both panels, accepting configurable action props (select vs remove) to handle the different behaviors needed in each context.
 
+## Search Consistency Across Panels
+
+### Design Decision
+
+Both the available and selected recipient panels should have search functionality to provide consistent behavior and UX. Users can filter recipients by:
+- Company domain names (e.g., "timescale" matches "timescale.com")
+- Email addresses (partial match, case-insensitive)
+
+### Implementation Approach
+
+Instead of providing a separate autocomplete component, the search filters the existing recipient lists. This allows users to interact with the same familiar elements (groups, individual recipients) in a known manner, maintaining consistency with the rest of the UI. The search is implemented at the derived atom level for optimal performance, filtering groups and recipients before they reach the UI components.
+

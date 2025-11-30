@@ -26,3 +26,13 @@ export const availableExpandedGroupsAtom = atom<Set<string>>(new Set<string>());
  */
 export const selectedExpandedGroupsAtom = atom<Set<string>>(new Set<string>());
 
+/**
+ * Atom storing search string for filtering available recipients
+ */
+export const availableSearchStringAtom = atom<string>("");
+
+/**
+ * Atom storing search string for filtering selected recipients
+ */
+export const selectedSearchStringAtom = atom<string>("");
+

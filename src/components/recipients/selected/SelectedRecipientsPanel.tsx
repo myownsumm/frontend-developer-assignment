@@ -1,11 +1,12 @@
 import { Box, Text, VStack } from "@chakra-ui/react";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
+import { SearchBar } from "../available/SearchBar";
 import { RecipientList } from "../shared/RecipientList";
 import {
   selectedRecipientGroupsOnlyAtom,
   individualSelectedRecipientsAtom,
 } from "../../../data-pipeline/memoize";
-import { selectedExpandedGroupsAtom } from "../../../lib/atoms";
+import { selectedExpandedGroupsAtom, selectedSearchStringAtom } from "../../../lib/atoms";
 import {
   removeRecipientActionAtom,
   removeDomainRecipientsActionAtom,
@@ -15,6 +16,7 @@ export const SelectedRecipientsPanel = () => {
   const groups = useAtomValue(selectedRecipientGroupsOnlyAtom);
   const individualRecipients = useAtomValue(individualSelectedRecipientsAtom);
   const [expandedGroups, setExpandedGroups] = useAtom(selectedExpandedGroupsAtom);
+  const [searchString, setSearchString] = useAtom(selectedSearchStringAtom);
   const removeRecipient = useSetAtom(removeRecipientActionAtom);
   const removeDomainRecipients = useSetAtom(removeDomainRecipientsActionAtom);
 
@@ -36,6 +38,7 @@ export const SelectedRecipientsPanel = () => {
         <Text fontSize="lg" fontWeight="semibold">
           Selected recipients
         </Text>
+        <SearchBar value={searchString} onChange={setSearchString} />
         <RecipientList
           groups={groups}
           individualRecipients={individualRecipients}

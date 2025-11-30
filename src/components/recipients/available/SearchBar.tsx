@@ -1,7 +1,7 @@
 import { Input, Box, Text } from "@chakra-ui/react";
 import { SearchBarProps } from "../../../types/recipients";
 
-export const SearchBar = ({ placeholder = "search" }: SearchBarProps) => {
+export const SearchBar = ({ placeholder = "search", value, onChange }: SearchBarProps) => {
   return (
     <Box position="relative">
       <Text
@@ -15,7 +15,12 @@ export const SearchBar = ({ placeholder = "search" }: SearchBarProps) => {
       >
         🔍
       </Text>
-      <Input placeholder={placeholder} pl="40px" />
+      <Input
+        placeholder={placeholder}
+        pl="40px"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
     </Box>
   );
 };
