@@ -4,3 +4,9 @@ declare module "*.svg" {
   const src: string;
   export default src;
 }
+
+declare module "*.json" {
+  import { RawRecipient } from "../data-pipeline";
+  const value: RawRecipient[];
+  export default value;
+}
