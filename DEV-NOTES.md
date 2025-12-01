@@ -14,6 +14,120 @@ The application is built with the following key libraries:
 - **@playwright/test 1.57.0** - End-to-end testing framework for comprehensive user flow validation
 - **uuid 13.0.0** - Generates unique identifiers for recipients during data transformation
 
+## Development Commands
+
+### Installation
+
+Install project dependencies:
+
+```bash
+npm install
+```
+
+or
+
+```bash
+yarn install
+```
+
+### Running the Application
+
+Start the development server:
+
+```bash
+npm start
+```
+
+or
+
+```bash
+yarn start
+```
+
+The application will open in your browser at `http://localhost:3000` (or the next available port).
+
+### Building for Production
+
+Create an optimized production build:
+
+```bash
+npm run build
+```
+
+or
+
+```bash
+yarn build
+```
+
+The build artifacts will be stored in the `build/` directory.
+
+### Running Tests
+
+#### Unit Tests
+
+Run unit tests in watch mode:
+
+```bash
+npm test
+```
+
+or
+
+```bash
+yarn test
+```
+
+#### End-to-End Tests
+
+Run Playwright e2e tests:
+
+```bash
+npm run test:e2e
+```
+
+or
+
+```bash
+yarn test:e2e
+```
+
+Run e2e tests with Playwright UI (interactive mode):
+
+```bash
+npm run test:e2e:ui
+```
+
+or
+
+```bash
+yarn test:e2e:ui
+```
+
+Run e2e tests in headed mode (with browser visible):
+
+```bash
+npm run test:e2e:headed
+```
+
+or
+
+```bash
+yarn test:e2e:headed
+```
+
+Run e2e tests in debug mode:
+
+```bash
+npm run test:e2e:debug
+```
+
+or
+
+```bash
+yarn test:e2e:debug
+```
+
 ## App Organization
 
 ### Component Architecture
